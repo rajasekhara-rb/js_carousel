@@ -1,0 +1,64 @@
+.img-div {
+    width: 75vw;
+}
+
+.img-div>div>img {
+    width: 75vw;
+    height: 75vh;
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+
+.img-div {
+    display: flex;
+    position: relative;
+    animation-name: slide;
+    animation-duration: 4s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: 4;
+}
+
+.img-container{
+    display: flex;
+    position: relative;
+    z-index: 0;
+}
+
+/* .container>div>img {
+    display: none;
+} */
+
+.title {
+    z-index: 10;
+    position: relative;
+    bottom: 75px;
+    color: whitesmoke;
+}
+
+.btn {
+    height: 75vh;
+    z-index: 999;
+}
+
+@keyframes slide {
+    0%{
+    
+    right: 0px;
+    }
+    /* 25%{
+        right: 500px;
+    }
+    50%{
+        right: 1000px;
+    }
+    75%{
+        right: 1500px;
+    } */
+    100%{
+        right: 1080px;  
+    }
+}
