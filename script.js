@@ -1,9 +1,30 @@
-let url = "https://picsum.photos/v2/list?page=5&limit=4";
+
+// console.log("fired");
+let submitBtn = document.querySelector("#submit");
+submitBtn.addEventListener("click", carousel);
 
 async function getImages() {
-    // console.log("fired");
+    let url = "";
+    function query() {
+        let perPage = document.querySelector(".perPage");
+        let pageNumer = document.querySelector(".pageNumer");
+        // alert()
+        if (perPage.value == "" || pageNumer.value == "") {
+            url = "https://picsum.photos/v2/list?page=5&limit=5";
+            console.log(url);
+            // return url
+        } else {
+            url = `https://picsum.photos/v2/list?page=${pageNumer.value}&limit=${perPage.value}`;
+            console.log(url);
+            // return url
+        }
+        perPage.value = "";
+        pageNumer.value = "";
+        return url
+    }
+    url = query();
     try {
-        let data = await fetch(url, {
+        let data = await fetch(`${url}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -20,52 +41,84 @@ async function getImages() {
 // getImages();
 
 async function displayImages() {
-    let images = await getImages();
-    // console.log(images);
-    let index = 0;
-    let html = "";
-    let imgCont = document.querySelector(".img-container");
-    images.forEach(element => {
-        html += `
-    <img class="img" id="${index}" src="${element["download_url"]}" alt="123">`
-        index++;
-    });
-    imgCont.innerHTML = html;
+    try {
+        let images = await getImages();
+        // console.log(images);
+        let index = 0;
+        let html = "";
+        let imgCont = document.querySelector(".img-container");
+        images.forEach(element => {
+            html += `<img class="slide w-100 h-100" id="${index}" src="${element["download_url"]}" alt="123">`
+            index++;
+        });
+        imgCont.innerHTML = html;
+        let slideObj = document.querySelectorAll(".slide");
+        return slideObj;
+    } catch (error) {
+        console.log(error)
+    }
 
 }
 
-//  // setTimeout(() => {
-//     html += `<div id="${index}">
-//     <img id="${index}" src="${element["download_url"]}" alt="123">
-//     <h1 class="title">${element["author"]}</h1>
-//     </div>`;
-//     console.log(`${element["download_url"]}`);
-//     index++;
-// // }, 1000);
+async function carousel() {
+    let slides = await displayImages();
 
-displayImages();
+    let counter = 0;
+    // let slides = document.querySelectorAll(".slide");
+    console.log(slides);
 
-// animation-name: slide;
-// animation-duration: 4s;
+    let prevBtn = document.querySelector(".prev");
 
-function autoSlide() {
-    i = 0;
-setTimeout(() => {
-    let imgContainers = document.querySelectorAll(".img-container>.img");
-    // imgContainers[i].setAttribute("position", "relative");
-     // console.log(imgContainers);
-     imgContainers[i].style.left= "1500px";
+    let next = document.querySelector(".next");
 
-    // let imgContainers = document.querySelectorAll(".img-container>.img");
-    // console.log(imgContainers);
-    // imgContainers[i].style.display="none";
 
-    setTimeout(()=>{ imgContainers[i].style.display="none";}, 2000)
-}, 2000);
-i++;
+    slides.forEach((slide, index) => {
+        slide.style.left = `${index * 100}%`;
+    })
+
+    let slideImage = function slideImage() {
+        slides.forEach((slide) => {
+            slide.style.transform = `translateX(-${counter * 100}%)`;
+        })
+    }
+
+    function nextImage() {
+        // alert()
+        if (counter < slides.length - 1) {
+            counter++;
+        }
+        else {
+            counter = 0;
+        }
+        slideImage();
+    }
+
+    function prevImage() {
+        // alert()
+        if (counter > 0) {
+            counter--;
+        }
+        else {
+            counter = slides.length - 1;
+            // counter = 0;
+        }
+        slideImage();
+    }
+    prevBtn.addEventListener("click", prevImage);
+    next.addEventListener("click", nextImage);
+
+    function autoSlide() {
+        setInterval(() => {
+            nextImage();
+        }, 2000)
+    }
+    autoSlide();
 }
 
-// autoSlide();
+carousel();
+
+
+
 
 
 

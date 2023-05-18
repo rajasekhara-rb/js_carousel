@@ -12,18 +12,20 @@
 </head>
 
 <body>
-    <div class="container">
-        <button class="btn btn-warning prev">Prev</button>
-        <div class="img-div">
-            <div class="img-container">
-                <!-- <img id="img" src="" alt=""> -->
-
-            </div>
-            <h1 class="title"></h1>
-            <div class="dots">
-            </div>
+    <div class="container-fluid mt-2 d-flex">
+        <input type="number" class=" input pageNumer form-control my-1" placeholder="Enter Coursosel Number" max="100"></imput>
+        <input type="number" class=" input perPage form-control my-1" placeholder="Enter No. of Images Per Caurosel" max="100">
+        </imput>
+        <button class="btn btn-primary input " id="submit">Submit</button>
+    </div>
+    <div class="container-fluid d-flex flex-column align-items-center">
+        <div class="img-container">
         </div>
-        <button class="btn btn-warning next">Next</button>
+        <h1 class="title"></h1>
+        <div class="dots">
+            <button class="btn btn-warning prev">Prev</button>
+            <button class="btn btn-warning next">Next</button>
+        </div>
     </div>
 
     <script src="script.js"></script>
